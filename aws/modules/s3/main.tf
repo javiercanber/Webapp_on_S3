@@ -1,0 +1,51 @@
+resource "aws_s3_bucket" "s3_septa_bucket" {
+  bucket = "webapp-septa-2025"
+
+  tags = {
+    project = var.project
+    environment = var.environment
+  }
+}
+
+# 2. Configurar la propiedad de sitio web
+resource "aws_s3_bucket_website_configuration" "website_config" {
+  bucket = aws_s3_bucket.s3_septa_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
+  }
+}
+
+# 3. Deshabilitar el bloqueo de acceso público (Obligatorio para sitios web públicos)
+resource "aws_s3_bucket_public_access_block" "public_access" {
+  bucket = aws_s3_bucket.s3_septa_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+# 4. Crear la política para que el mundo pueda leer los archivos
+resource "aws_s3_bucket_policy" "allow_public_access" {
+  bucket = aws_s3_bucket.s3_septa_bucket.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.s3_septa_bucket.arn}/*"
+      }
+    ]
+  })
+  
+  # Dependencia para asegurar que el bloqueo de acceso público se quite antes
+  depends_on = [aws_s3_bucket_public_access_block.public_access]
+}
