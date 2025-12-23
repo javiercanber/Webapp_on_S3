@@ -10,13 +10,13 @@ resource "aws_s3_bucket" "s3_septa_bucket" {
 # Insert webapp files into S3 bucket"
 
 resource "aws_s3_object" "webapp_files" {
-  for_each = fileset("${path.root}/../html_files/", "**/*")
+  for_each = fileset("${path.root}/html_files/", "**/*")
 
   bucket       = aws_s3_bucket.s3_septa_bucket.id
   key          = each.value
-  source       = "${path.root}/../html_files/${each.value}"
+  source       = "${path.root}/html_files/${each.value}"
   content_type = "text/html"
-  etag         = filemd5("${path.root}/../html_files/${each.value}")
+  etag         = filemd5("${path.root}/html_files/${each.value}")
 }
 
 # 2. Configurar la propiedad de sitio web
