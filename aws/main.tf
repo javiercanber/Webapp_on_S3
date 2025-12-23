@@ -18,7 +18,7 @@ provider "aws" {
 
 module "s3_website" {
     
-    source = "/aws/modules/s3"
+    source = "./modules/s3"
 
     environment = var.environment
     project = var.project
