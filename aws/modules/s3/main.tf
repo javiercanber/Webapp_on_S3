@@ -27,7 +27,7 @@ resource "aws_s3_bucket_website_configuration" "webapp_config" {
 # Allow public access to S3
 
 resource "aws_s3_bucket_public_access_block" "webapp_access" {
-  bucket = aws_s3_bucket.example.id
+  bucket = aws_s3_bucket.webapp_bucket.id
 
   block_public_acls       = false
   block_public_policy     = false
