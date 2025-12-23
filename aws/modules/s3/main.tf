@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "s3_septa_bucket" {
 # Insert webapp files into S3 bucket"
 
 resource "aws_s3_object" "webapp_files" {
-  for_each = fileset("${path.root}/../html_files/", "**/*")
+  for_each = fileset("${path.root}/html_files/", "**/*")
 
   bucket       = aws_s3_bucket.s3_septa_bucket.id
   key          = each.value
