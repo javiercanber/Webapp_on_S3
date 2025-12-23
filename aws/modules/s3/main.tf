@@ -1,3 +1,5 @@
+# Create a S3 bucket
+
 resource "aws_s3_bucket" "webapp_bucket" {
   bucket = "Webapp-2025"
 
@@ -31,5 +33,5 @@ resource "aws_s3_bucket_public_access_block" "webapp_access" {
   block_public_policy     = false
   ignore_public_acls      = false
   restrict_public_buckets = false
-  
+
 }
