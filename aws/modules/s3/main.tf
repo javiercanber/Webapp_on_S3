@@ -56,7 +56,7 @@ resource "aws_s3_bucket_policy" "deny_public_access" {
         Resource  = "${aws_s3_bucket.s3_septa_bucket.arn}/*"
         Condition = {
           NotIpAddress = {
-            "aws:SourceIp" = ["87.222.175.30/32"]
+            "aws:SourceIp" = ["192.168.1.23/32"]
           }
         }
       }
