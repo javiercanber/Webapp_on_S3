@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "s3_septa_bucket" {
   }
 }
 
-# Insert webapp files into S3 bucket"
+# Inserta los ficheros de la Webapp dentro del bucket creado
 
 resource "aws_s3_object" "webapp_files" {
   for_each = fileset("${path.root}/html_files/", "**/*")
@@ -42,18 +42,23 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
   restrict_public_buckets = false
 }
 
-# 4. Crear la política para que el mundo pueda leer los archivos
-resource "aws_s3_bucket_policy" "allow_public_access" {
+# 4. Crear la política para denegar el acceso a todos excepto a un rango de IP's
+resource "aws_s3_bucket_policy" "deny_public_access" {
   bucket = aws_s3_bucket.s3_septa_bucket.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "PublicReadGetObject"
-        Effect    = "Allow"
+        Sid       = "DenyPublicReadGetObject"
+        Effect    = "Deny"
         Principal = "*"
         Action    = "s3:GetObject"
         Resource  = "${aws_s3_bucket.s3_septa_bucket.arn}/*"
+        Condition = {
+          NoIpAddress = {
+            "aws:SourceIp" = ["87.222.175.30/32"]
+          }
+        }
       }
     ]
   })
