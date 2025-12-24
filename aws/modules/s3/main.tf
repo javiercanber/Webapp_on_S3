@@ -62,7 +62,30 @@ resource "aws_s3_bucket_policy" "deny_public_access" {
       }
     ]
   })
-  
+ 
   # Dependencia para asegurar que el bloqueo de acceso público se quite antes
   depends_on = [aws_s3_bucket_public_access_block.public_access]
+}
+
+resource "aws_s3_bucket_policy" "allow_specific_ip" {
+  bucket = aws_s3_bucket.s3_septa_bucket.id
+  depends_on = [aws_s3_bucket_public_access_block.public_access]
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObjectOnlyFromMyIP"
+        Effect    = "Allow"      
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.s3_septa_bucket.arn}/*"
+        Condition = {
+          IpAddress = {          
+            "aws:SourceIp" = ["87.222.175.30/32"]
+          }
+        }
+      }
+    ]
+  })
 }
