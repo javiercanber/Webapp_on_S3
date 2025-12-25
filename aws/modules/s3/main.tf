@@ -75,16 +75,31 @@ resource "aws_s3_bucket_policy" "allow_specific_ip" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "PublicReadGetObjectOnlyFromMyIP"
-        Effect    = "Allow"      
+        Sid       = "IPAllow"
+        Effect    = "Allow"
         Principal = "*"
-        Action    = "s3:GetObject"
-        Resource  = "${aws_s3_bucket.s3_septa_bucket.arn}/*"
+        Action    = "s3:*"
+        Resource  = [
+          "${aws_s3_bucket.s3_septa_bucket.arn}",
+          "${aws_s3_bucket.s3_septa_bucket.arn}/*"
+        ]
         Condition = {
-          IpAddress = {          
+          IpAddress = {
             "aws:SourceIp" = ["87.222.175.30/32"]
           }
         }
+      },
+      {
+        Sid = "TerraformUserAllow"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::286668516115:root" 
+        }
+        Action = "s3:*"
+        Resource = [
+          "${aws_s3_bucket.s3_septa_bucket.arn}",
+          "${aws_s3_bucket.s3_septa_bucket.arn}/*"
+        ]
       }
     ]
   })
