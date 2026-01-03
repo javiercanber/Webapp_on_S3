@@ -8,17 +8,13 @@ variable "environment" {
   description = "Define a tag for the environments"
 }
 
-variable "private_subnet" {
-    type = list(string)
-    description = "IP Range for private subnet"
+variable "private_subnet_id" {
+  type = list(string)
+  description = "List of private subnet IDs where the Lambda function will be deployed"
 }
 
-variable "lambda_sg" {
+variable "lambda_security_group" {
   type = string
-  description = "SG value"
-}
-
-variable "s3_function" {
-  type = string
-  description = "ARN of the Lambda function triggered by S3 events"
+  description = "Security group ID to be associated with the Lambda function"
+  
 }

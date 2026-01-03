@@ -16,6 +16,6 @@ resource "aws_cloudwatch_event_rule" "s3_upload" {
 # AWS EventBridge Target
 resource "aws_cloudwatch_event_target" "s3_to_lambda" {
   rule      = aws_cloudwatch_event_rule.s3_upload.name
-  arn       = var.septa_workflow.id
+  arn       = var.septa_workflow
   role_arn = aws_iam_role.eventbridge_role.arn
 }
