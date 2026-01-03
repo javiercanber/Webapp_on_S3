@@ -2,7 +2,7 @@
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_file = "${path.root}/html_files/index.html"
-  output_path = "${path.module}/lambda_function.zip"
+  output_path = "${path.root}/html_files/lambda_function.zip"
 }
 
 
