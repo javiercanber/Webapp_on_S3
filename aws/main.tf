@@ -31,7 +31,7 @@ module "network_septa" {
 
     source = "./modules/network"
 
-    private_subnet = var.private_subnet[0]
+    private_subnet = var.private_subnet
     cidr_block = var.cidr_block
     environment = var.environment
     project = var.project
