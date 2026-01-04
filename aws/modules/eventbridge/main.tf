@@ -4,7 +4,7 @@ resource "aws_cloudwatch_event_rule" "s3_upload" {
 
   event_pattern = jsonencode({
     source = ["aws.s3"]
-    detail-type = ["Object Created"]
+    detail_type = ["Object Created"]
     detail = {
       bucket = {
         name = ["webapp-septa-2025"]
