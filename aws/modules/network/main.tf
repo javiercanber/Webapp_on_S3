@@ -48,3 +48,24 @@ resource "aws_vpc_security_group_ingress_rule" "allow_lambda_access" {
     to_port = 6280
 
 }
+
+# Internet Gateway for AWS Lambda VPC
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.lambda_vpc.id
+}
+
+# Route Table for AWS Lambda VPC
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.lambda_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+}
+
+# Associate Route Table with private_subnet of AWS Lambda VPC
+resource "aws_route_table_association" "public_assoc" {
+  subnet_id      = aws_subnet.lambda_private_subnet.id
+  route_table_id = aws_route_table.public_rt.id
+}
