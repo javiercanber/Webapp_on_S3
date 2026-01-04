@@ -1,7 +1,7 @@
 # Load .zip file for Lambda function
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_file = "${path.root}/html_files/index.html"
+  source_file = "${path.root}/html_files/index.js"
   output_path = "${path.root}/html_files/lambda_function.zip"
 }
 

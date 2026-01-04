@@ -33,3 +33,8 @@ resource "aws_iam_user_policy_attachment" "attach_s3_policy" {
   user       = aws_iam_user.s3_admin_user.name
   policy_arn = aws_iam_policy.s3_create_policy.arn
 }
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket      = "webapp-septa-2025"
+  eventbridge = true
+}
