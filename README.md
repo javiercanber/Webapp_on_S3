@@ -3,7 +3,7 @@ Project - Septa Stream
 
 Description
 ===========
-Create an S3 bucket working as static website hosting. When S3 upload a new file in the bucket, it triggers an event in Eventbridge service that is send to Step Functions, who trigger an AWS Lambda process and return the details of the new file uploaded.
+Create an S3 bucket configured for static website hosting. When a new file is uploaded to the S3 bucket, it triggers an event in the EventBridge service, which is sent to Step Functions. This triggers an AWS Lambda process that returns the details of the new file uploaded.
 
 Architecture
 ============
