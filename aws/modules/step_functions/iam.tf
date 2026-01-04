@@ -20,7 +20,7 @@ resource "aws_iam_role_policy" "sfn_lambda_policy" {
     Statement = [{
       Effect   = "Allow"
       Action   = "lambda:InvokeFunction"
-      Resource = "arn:aws:lambda:*:*:function:s3_function*"
+      Resource = "arn:aws:lambda:*:*:function:s3_processor*"
     }]
   })
 }
