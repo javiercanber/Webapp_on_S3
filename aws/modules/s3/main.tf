@@ -104,3 +104,8 @@ resource "aws_s3_bucket_policy" "allow_specific_ip" {
     ]
   })
 }
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket      = "webapp-septa-2025"
+  eventbridge = true
+}
