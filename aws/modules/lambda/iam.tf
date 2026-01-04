@@ -32,6 +32,7 @@ resource "aws_iam_policy" "lambda_write_log" {
       {
         Action   = [
           "logs:CreateLogGroup",
+          "logs:CreateLogStream",
           "logs:PutLogEvents"
         ]
         Effect   = "Allow"
